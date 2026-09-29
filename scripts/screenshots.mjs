@@ -1,4 +1,4 @@
-// Real screenshots for the README: title screen, a bot run watched as a replay, touch layout on a phone.
+// Real screenshots for the README: title screen, a live run played by the built-in bot, touch layout on a phone.
 //   node scripts/screenshots.mjs
 import fs from "node:fs";
 import { chromium, devices } from "playwright";
@@ -17,21 +17,23 @@ await page.waitForFunction(() => window.__hop);
 await sleep(2500);
 await shot(page, "title");
 
-// let the built-in bot climb, then watch its run as a replay
-const code = await page.evaluate(() => {
-  const { newGame, stepGame, Bot, gameScore, replayToCode } = window.__hop;
-  const g = newGame(424242, true), mind = {}, bits = [];
-  for (let i = 0; i < 9000 && g.state !== "dead"; i++) { const b = Bot.think(g, mind); bits.push(b); stepGame(g, b); g.ev.length = 0; }
-  let s = "", prev = -1, run = 0;
-  for (const b of bits) { if (b === prev) run++; else { if (run) s += "ABCDEFGH"[prev] + run.toString(36); prev = b; run = 1; } }
-  if (run) s += "ABCDEFGH"[prev] + run.toString(36);
-  return replayToCode({ v: 1, seed: 424242, rejump: true, input: s, name: "BOT", score: gameScore(g), char: 1 });
+// live game driven by the built-in bot through a virtual gamepad (the game reads it like a real controller)
+await page.evaluate(() => {
+  const mind = {};
+  navigator.getGamepads = () => {
+    const h = window.__hop, s = h.App.sess;
+    const b = s && s.g.state === "play" ? h.Bot.think(s.g, mind) : 0;
+    const btn = (on) => ({ pressed: on, value: on ? 1 : 0 });
+    return [{ connected: true, axes: [b & 1 ? -1 : b & 2 ? 1 : 0, 0], buttons: [btn(!!(b & 4)), ...Array.from({ length: 15 }, () => btn(false))] }];
+  };
+  window.__hop.startGame();
 });
-await page.evaluate((c) => window.__hop.startReplay(window.__hop.replayFromCode(c), "title"), code);
-for (const [name, ms] of [["play-1", 9000], ["play-2", 14000], ["play-3", 20000]]) {
-  await sleep(ms - (name === "play-1" ? 0 : 0));
+let elapsed = 0;
+for (const [name, at] of [["play-1", 9000], ["play-2", 24000], ["play-3", 40000]]) {
+  await sleep(at - elapsed); elapsed = at;
   await shot(page, name);
 }
+console.log("floor", await page.evaluate(() => window.__hop.App.sess.g.best));
 
 const ctx = await browser.newContext({ ...devices["iPhone 13"] });
 const phone = await ctx.newPage();

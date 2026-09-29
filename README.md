@@ -9,7 +9,7 @@ Tarayıcıda ve masaüstünde (macOS, Windows) çalışır. Oyun tek bir canvas 
 | | |
 |---|---|
 | ![Taş kule](screenshots/play-1.jpg) | ![Buz katları](screenshots/play-2.jpg) |
-| ![Ahşap katları, 200. kat](screenshots/play-3.jpg) | ![Telefonda dokunmatik tuşlar](screenshots/phone.jpg) |
+| ![190. kat](screenshots/play-3.jpg) | ![Telefonda dokunmatik tuşlar](screenshots/phone.jpg) |
 
 ## Oyun
 
