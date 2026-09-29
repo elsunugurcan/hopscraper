@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#120e26">
+<meta name="description" content="Hopscraper: an endless tower jumping game. Run, bounce off the walls and chain combo jumps before the tower leaves you behind.">
+<title>Hopscraper</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <div id="stage">
+    <canvas id="game" tabindex="0" aria-label="Hopscraper, a tower jumping game. Use the arrow keys to run and space to jump."></canvas>
+    <input id="nameInput" type="text" maxlength="12" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Your name" hidden>
+  </div>
+</div>
+<div id="touch" aria-hidden="true">
+  <div class="tgroup">
+    <div class="tbtn" data-k="left"><svg viewBox="0 0 24 24"><path d="M15.5 4 6.5 12l9 8z"/></svg></div>
+    <div class="tbtn" data-k="right"><svg viewBox="0 0 24 24"><path d="M8.5 4l9 8-9 8z"/></svg></div>
+  </div>
+  <div class="tbtn jump" data-k="jump"><svg viewBox="0 0 24 24"><path d="M12 3.5 3.5 13.5h5.2V20h6.6v-6.5h5.2z"/></svg></div>
+</div>
+<div id="modal" hidden>
+  <div class="card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h2 id="modalTitle"></h2>
+    <p id="modalText"></p>
+    <textarea id="codeBox" spellcheck="false" aria-label="Replay code"></textarea>
+    <div class="row"><button id="modalCancel" type="button"></button><button id="modalOk" type="button" class="primary"></button></div>
+  </div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>

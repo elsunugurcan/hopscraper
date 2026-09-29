@@ -1,0 +1,36 @@
+{
+  "name": "hopscraper",
+  "productName": "Hopscraper",
+  "version": "1.0.0",
+  "description": "Endless tower jumping game — browser and desktop (Electron).",
+  "main": "main.js",
+  "license": "MIT",
+  "author": "Uğur Can Elsun",
+  "scripts": {
+    "start": "electron .",
+    "serve": "node scripts/serve.mjs",
+    "test": "node --test test/*.test.mjs",
+    "screenshots": "node scripts/screenshots.mjs",
+    "dist:mac": "electron-builder --mac zip --x64 --arm64",
+    "dist:win": "electron-builder --win zip --x64"
+  },
+  "build": {
+    "appId": "com.uurstudio.hopscraper",
+    "productName": "Hopscraper",
+    "files": [
+      "main.js",
+      "web/**/*"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "mac": {
+      "category": "public.app-category.arcade-games"
+    }
+  },
+  "devDependencies": {
+    "electron": "^33.4.11",
+    "electron-builder": "^25.1.8",
+    "playwright": "^1.56.0"
+  }
+}
